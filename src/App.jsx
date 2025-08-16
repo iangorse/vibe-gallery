@@ -80,6 +80,7 @@ function App() {
   const [shuffledList, setShuffledList] = useState([]);
   const pageSize = 24;
   const [page, setPage] = useState(1);
+  const [filter, setFilter] = useState('all');
 
   useEffect(() => {
     setShuffledList(shuffleArray(imageList));
@@ -100,12 +101,31 @@ function App() {
     setFullscreenImg(null);
   };
 
-  const totalPages = Math.ceil(shuffledList.length / pageSize);
-  const pagedList = shuffledList.slice((page - 1) * pageSize, page * pageSize);
+  // Filter logic
+  const filteredList = shuffledList.filter(filename => {
+    if (filter === 'all') return true;
+    if (filter === 'images') return !filename.toLowerCase().endsWith('.mp4');
+    if (filter === 'videos') return filename.toLowerCase().endsWith('.mp4');
+    return true;
+  });
+
+  const totalPages = Math.ceil(filteredList.length / pageSize);
+  const pagedList = filteredList.slice((page - 1) * pageSize, page * pageSize);
 
   return (
     <div className="App container-fluid">
       <h1 className="my-4 text-center vibe-heading">Vibe Gallery</h1>
+      <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '1rem' }}>
+        <select
+          className="form-select w-auto"
+          value={filter}
+          onChange={e => { setFilter(e.target.value); setPage(1); }}
+        >
+          <option value="all">All</option>
+          <option value="images">Images</option>
+          <option value="videos">Videos</option>
+        </select>
+      </div>
       <div className="row g-0">
         {pagedList.map((filename, idx) => {
           const isVideo = filename.toLowerCase().endsWith('.mp4');
