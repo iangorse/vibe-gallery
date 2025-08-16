@@ -1,5 +1,10 @@
+import imageList from "./imageList.json";
+
+const imageBasePath = "/images/";
+
+function App() {
   return (
-    <div className="App container">
+  <div className="App container-fluid">
       <h1 className="my-4 text-center">Vibe Gallery</h1>
       <div className="row g-0">
         {imageList.map((filename, idx) => (
@@ -17,3 +22,6 @@
       </div>
     </div>
   );
+}
+
+export default App;
