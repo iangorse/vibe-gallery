@@ -111,45 +111,47 @@ function App() {
   }, []);
 
   return (
-  <div className="App container-fluid" style={{ background: '#000', minHeight: '100vh', paddingBottom: '2rem', margin: 0, padding: 0 }}>
-      <div style={{
-        maxWidth: 600,
-        margin: '0 auto 0 auto',
-        padding: '1.2rem 1rem 1rem 1rem',
-        borderRadius: '0',
+    <div className="App container-fluid" style={{ background: '#000', minHeight: '100vh', paddingBottom: '2rem', margin: 0, padding: 0 }}>
+      <div className="header-bar" style={{
+        width: '100vw',
+        left: 0,
+        top: 0,
+        position: 'relative',
+        padding: '1.2rem 0 1rem 0',
         background: 'linear-gradient(120deg, #4f8cff 0%, #6a5af9 50%, #a259ec 100%)',
         boxShadow: '0 8px 32px rgba(0,0,0,0.18)',
         textAlign: 'center',
         color: '#fff',
-        position: 'relative',
+        margin: 0,
+        borderRadius: 0,
+        zIndex: 10,
       }}>
-          <h1 className="vibe-heading" style={{ fontSize: '2.8rem', fontWeight: 900, marginBottom: '1.2rem', letterSpacing: '2px', color: 'inherit', textShadow: '0 2px 16px #ee0979, 0 1px 0 #43cea2' }}>Vibe Gallery</h1>
-          <div style={{ fontSize: '0.8rem', fontWeight: 500, marginBottom: '0.5rem', color: 'rgba(255,255,255,0.92)' }}>
-            Application built with AI
-          </div>
-          <div style={{ fontSize: '1.05rem', fontWeight: 400, color: 'rgba(255,255,255,0.8)' }}>
-            refresh to show more
-          </div>
+        <h1 className="vibe-heading" style={{ fontSize: '2.8rem', fontWeight: 900, marginBottom: '1.2rem', letterSpacing: '2px', color: 'inherit', textShadow: '0 2px 16px #ee0979, 0 1px 0 #43cea2' }}>Vibe Gallery</h1>
+        <div style={{ fontSize: '0.8rem', fontWeight: 500, marginBottom: '0.5rem', color: 'rgba(255,255,255,0.92)' }}>
+          Application built with AI
         </div>
-  <div className="gallery-flex" style={{ display: 'flex', flexWrap: 'wrap', gap: 0, justifyContent: 'center', width: '100%' }}>
-          {pagedList.map((filename, idx) => {
-            const isVideo = filename.toLowerCase().endsWith('.mp4');
-            return isVideo ? (
-              <VideoItem key={idx} filename={filename} idx={idx} handleImgClick={handleImgClick} />
-            ) : (
-              <div className="gallery-item" key={idx} style={{ flex: '1 1 320px', maxWidth: '420px', minWidth: '220px', background: '#fff', overflow: 'hidden', display: 'flex', alignItems: 'stretch', justifyContent: 'stretch', margin: 0, padding: 0 }}>
-                <img
-                  src={thumbBasePath + filename}
-                  alt={filename}
-                  style={{ objectFit: "cover", width: "100%", height: "100%", display: "block", margin: 0, padding: 0, borderRadius: 0, boxShadow: 'none', background: "#eee" }}
-                  loading="lazy"
-                />
-              </div>
-            );
-          })}
+        <div style={{ fontSize: '1.05rem', fontWeight: 400, color: 'rgba(255,255,255,0.8)' }}>
+          refresh to show more
         </div>
-
       </div>
+      <div className="gallery-flex" style={{ display: 'flex', flexWrap: 'wrap', gap: 0, justifyContent: 'center', width: '100%' }}>
+        {pagedList.map((filename, idx) => {
+          const isVideo = filename.toLowerCase().endsWith('.mp4');
+          return isVideo ? (
+            <VideoItem key={idx} filename={filename} idx={idx} handleImgClick={handleImgClick} />
+          ) : (
+            <div className="gallery-item" key={idx} style={{ flex: '1 1 320px', maxWidth: '420px', minWidth: '220px', background: '#fff', overflow: 'hidden', display: 'flex', alignItems: 'stretch', justifyContent: 'stretch', margin: 0, padding: 0 }}>
+              <img
+                src={thumbBasePath + filename}
+                alt={filename}
+                style={{ objectFit: "cover", width: "100%", height: "100%", display: "block", margin: 0, padding: 0, borderRadius: 0, boxShadow: 'none', background: "#eee" }}
+                loading="lazy"
+              />
+            </div>
+          );
+        })}
+      </div>
+    </div>
   );
 }
 
