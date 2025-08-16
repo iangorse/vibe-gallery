@@ -26,7 +26,7 @@ function VideoItem({ filename, idx, handleImgClick }) {
         <video
           ref={videoRef}
           id={`gallery-video-${idx}`}
-          src={imageBasePath + filename}
+          src={thumbBasePath + filename}
           className="card-img-top rounded-0 gallery-img"
           style={{ objectFit: "cover", height: "100%", cursor: "pointer", transition: "transform 0.2s" }}
           controls={false}
@@ -99,9 +99,8 @@ function App() {
     setFullscreenImg(null);
   };
 
-  // Only show 100 random mp4 thumbnails
-  const mp4Files = shuffledList.filter(f => f.toLowerCase().endsWith('.mp4'));
-  const pagedList = mp4Files.slice(0, maxImages);
+  // Show up to 100 random images and videos
+  const pagedList = shuffledList.slice(0, maxImages);
 
   // Remove all default margin/padding from body and html (global style)
   useEffect(() => {
