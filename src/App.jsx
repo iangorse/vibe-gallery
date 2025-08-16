@@ -122,7 +122,7 @@ function App() {
         left: 0,
         top: 0,
         position: 'relative',
-        padding: '1.2rem 0 1rem 0',
+  padding: '0.6rem 0 0.5rem 0',
         background: 'linear-gradient(120deg, #4f8cff 0%, #6a5af9 50%, #a259ec 100%)',
         boxShadow: '0 8px 32px rgba(0,0,0,0.18)',
         textAlign: 'center',
@@ -131,9 +131,9 @@ function App() {
         borderRadius: 0,
         zIndex: 10,
       }}>
-        <h1 className="vibe-heading" style={{ fontSize: '2.8rem', fontWeight: 900, marginBottom: '1.2rem', letterSpacing: '2px', color: 'inherit', textShadow: '0 2px 16px #ee0979, 0 1px 0 #43cea2' }}>Vibe Gallery</h1>
-        <div style={{ fontSize: '1.1rem', fontWeight: 700, marginBottom: '0.7rem', color: '#fff', textShadow: '0 2px 8px #6a5af9' }}>
-          now with video support!
+        <h1 className="vibe-heading" style={{ fontSize: '2rem', fontWeight: 900, marginBottom: '0.4rem', letterSpacing: '1.5px', color: '#fff', textShadow: '0 1px 6px #ee0979, 0 1px 0 #43cea2' }}>Vibe Gallery</h1>
+        <div style={{ fontSize: '0.95rem', fontWeight: 700, marginBottom: '0.2rem', color: '#ffeb3b', textShadow: '0 1px 6px #6a5af9' }}>
+          now with <span style={{color:'#ee0979', fontWeight:900}}>video support!</span>
         </div>
         <div style={{ fontSize: '0.8rem', fontWeight: 500, marginBottom: '0.5rem', color: 'rgba(255,255,255,0.92)' }}>
           Application built with AI
