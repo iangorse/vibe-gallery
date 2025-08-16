@@ -1,16 +1,75 @@
 import imageList from "./imageList.json";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+
+
 
 const imageBasePath = "/images/";
 
+function VideoItem({ filename, idx, handleImgClick }) {
+  const videoRef = useRef(null);
+  const [isPaused, setIsPaused] = useState(true);
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    const handlePause = () => setIsPaused(true);
+    const handlePlay = () => setIsPaused(false);
+    video.addEventListener('pause', handlePause);
+    video.addEventListener('play', handlePlay);
+    return () => {
+      video.removeEventListener('pause', handlePause);
+      video.removeEventListener('play', handlePlay);
+    };
+  }, []);
+  return (
+    <div className="col-6 col-md-4 col-lg-3 p-0" style={{position: 'relative'}}>
+      <div className="card h-100 border-0 rounded-0">
+        <video
+          ref={videoRef}
+          id={`gallery-video-${idx}`}
+          src={imageBasePath + filename}
+          className="card-img-top rounded-0 gallery-img"
+          style={{ objectFit: "cover", height: "100%", cursor: "pointer", transition: "transform 0.2s" }}
+          controls={false}
+          onClick={e => {
+            if (e.target.paused) {
+              e.target.play();
+            } else {
+              e.target.pause();
+            }
+          }}
+          onDoubleClick={() => handleImgClick(filename, idx)}
+        />
+        {isPaused && (
+          <div style={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            pointerEvents: 'none',
+            zIndex: 2,
+            background: 'rgba(0,0,0,0.4)',
+            borderRadius: '50%',
+            width: 60,
+            height: 60,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="white" style={{marginLeft: 6}}>
+              <circle cx="16" cy="16" r="16" fill="none" />
+              <polygon points="12,10 24,16 12,22" fill="white" />
+            </svg>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
 function App() {
   const [fullscreenImg, setFullscreenImg] = useState(null);
-  // Pagination removed; show all items
-
-  // Endless scroll removed; pagination will be used instead
 
   const handleImgClick = (filename, idx) => {
-    // If it's a video, pause all gallery videos before opening fullscreen
     const isVideo = filename.toLowerCase().endsWith('.mp4');
     if (isVideo) {
       const galleryVideos = document.querySelectorAll('video[id^="gallery-video-"]');
@@ -25,41 +84,30 @@ function App() {
     setFullscreenImg(null);
   };
 
-  // Removed auto-play logic for videos
-
   return (
     <div className="App container-fluid">
       <h1 className="my-4 text-center vibe-heading">Vibe Gallery</h1>
       <div className="row g-0">
-  {imageList.map((filename, idx) => {
+        {imageList.map((filename, idx) => {
           const isVideo = filename.toLowerCase().endsWith('.mp4');
-          return (
+          return isVideo ? (
+            <VideoItem key={idx} filename={filename} idx={idx} handleImgClick={handleImgClick} />
+          ) : (
             <div className="col-6 col-md-4 col-lg-3 p-0" key={idx}>
               <div className="card h-100 border-0 rounded-0">
-                {isVideo ? (
-                  <video
-                    id={`gallery-video-${idx}`}
-                    src={imageBasePath + filename}
-                    className="card-img-top rounded-0 gallery-img"
-                    style={{ objectFit: "cover", height: "100%", cursor: "pointer", transition: "transform 0.2s" }}
-                    controls
-                    onClick={() => handleImgClick(filename, idx)}
-                  />
-                ) : (
-                  <img
-                    src={imageBasePath + filename}
-                    className="card-img-top rounded-0 gallery-img"
-                    alt={filename}
-                    style={{ objectFit: "cover", height: "100%", cursor: "pointer", transition: "transform 0.2s" }}
-                    onClick={() => handleImgClick(filename, idx)}
-                  />
-                )}
+                <img
+                  src={imageBasePath + filename}
+                  className="card-img-top rounded-0 gallery-img"
+                  alt={filename}
+                  style={{ objectFit: "cover", height: "100%", cursor: "pointer", transition: "transform 0.2s" }}
+                  loading="lazy"
+                  onClick={() => handleImgClick(filename, idx)}
+                />
               </div>
             </div>
           );
         })}
       </div>
-  {/* Pagination removed */}
 
       {fullscreenImg && (
         <div
