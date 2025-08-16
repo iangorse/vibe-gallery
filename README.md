@@ -13,6 +13,8 @@ If you are developing a production application, we recommend using TypeScript wi
 
 A modern React-based gallery web application for viewing and downloading images and videos. Built with Vite, Bootstrap, and AI-generated content.
 
+**This application and README were completely written by AI.**
+
 ## Features
 
 - Displays a grid of images and videos from the `public/tn` folder
