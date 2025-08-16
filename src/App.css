@@ -12,6 +12,10 @@
   margin-bottom: 2rem;
 }
 /* Gallery image hover effect */
+.gallery-img {
+  border-radius: 16px;
+  transition: transform 0.2s, box-shadow 0.2s, border-radius 0.2s;
+}
 .gallery-img:hover {
   transform: scale(1.15);
   z-index: 2;
