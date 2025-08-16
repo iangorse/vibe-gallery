@@ -1,5 +1,6 @@
 # Ignore gallery images
 public/images/
+public/tn/
 # Logs
 logs
 *.log

@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 
 
 const imageBasePath = "/images/";
+const thumbBasePath = "/tn/";
 
 function VideoItem({ filename, idx, handleImgClick }) {
   const videoRef = useRef(null);
@@ -114,7 +115,7 @@ function App() {
               <div className="col-6 col-md-4 col-lg-3 p-0" key={idx}>
                 <div className="card h-100 border-0 rounded-0">
                   <img
-                    src={imageBasePath + filename}
+                    src={thumbBasePath + filename}
                     className="card-img-top rounded-0 gallery-img"
                     alt={filename}
                     style={{ objectFit: "cover", height: "100%", cursor: "pointer", transition: "transform 0.2s" }}

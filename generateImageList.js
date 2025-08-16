@@ -5,7 +5,7 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const imagesDir = path.join(__dirname, 'public', 'images');
+const imagesDir = path.join(__dirname, 'public', 'tn');
 const outputFile = path.join(__dirname, 'src', 'imageList.json');
 
 // Supported extensions
