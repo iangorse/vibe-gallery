@@ -1,4 +1,3 @@
-[...existing code...]
 # Vibe Gallery
 
 A modern React-based gallery web application for viewing and downloading images and videos. Built with Vite, Bootstrap, and AI-generated content.
