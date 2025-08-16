@@ -23,9 +23,9 @@ function App() {
             <div className="card h-100 border-0 rounded-0">
               <img
                 src={imageBasePath + filename}
-                className="card-img-top rounded-0"
+                className="card-img-top rounded-0 gallery-img"
                 alt={filename}
-                style={{ objectFit: "cover", height: "100%", cursor: "pointer" }}
+                style={{ objectFit: "cover", height: "100%", cursor: "pointer", transition: "transform 0.2s" }}
                 onClick={() => handleImgClick(filename)}
               />
             </div>
