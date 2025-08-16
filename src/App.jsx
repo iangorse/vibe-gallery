@@ -24,7 +24,15 @@ function App() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const handleImgClick = (filename) => {
+  const handleImgClick = (filename, idx) => {
+    // If it's a video, pause all gallery videos before opening fullscreen
+    const isVideo = filename.toLowerCase().endsWith('.mp4');
+    if (isVideo) {
+      const galleryVideos = document.querySelectorAll('video[id^="gallery-video-"]');
+      galleryVideos.forEach(video => {
+        if (!video.paused) video.pause();
+      });
+    }
     setFullscreenImg(filename);
   };
 
@@ -45,11 +53,12 @@ function App() {
               <div className="card h-100 border-0 rounded-0">
                 {isVideo ? (
                   <video
+                    id={`gallery-video-${idx}`}
                     src={imageBasePath + filename}
                     className="card-img-top rounded-0 gallery-img"
                     style={{ objectFit: "cover", height: "100%", cursor: "pointer", transition: "transform 0.2s" }}
                     controls
-                    onClick={() => handleImgClick(filename)}
+                    onClick={() => handleImgClick(filename, idx)}
                   />
                 ) : (
                   <img
@@ -57,7 +66,7 @@ function App() {
                     className="card-img-top rounded-0 gallery-img"
                     alt={filename}
                     style={{ objectFit: "cover", height: "100%", cursor: "pointer", transition: "transform 0.2s" }}
-                    onClick={() => handleImgClick(filename)}
+                    onClick={() => handleImgClick(filename, idx)}
                   />
                 )}
               </div>
@@ -97,6 +106,7 @@ function App() {
                 borderRadius: "8px",
               }}
               controls
+              autoPlay
             />
           ) : (
             <img
