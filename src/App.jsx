@@ -20,6 +20,10 @@ function VideoItem({ filename, idx, handleImgClick }) {
       video.removeEventListener('play', handlePlay);
     };
   }, []);
+  // Generate a random name for the downloaded file
+  const randomNames = ["Zap", "PixelPop", "VibeDrop", "Nova", "Echo", "Pulse", "Flux", "Spark", "Blitz", "Muse", "Jolt", "Lume", "Glint", "Flick", "Quark", "Twist", "Dash", "Glow", "Riff", "Sway", "Drift", "Wisp", "Faze", "Rave", "Chime", "Flicker", "Flash", "Beat", "Groove", "Wave", "Burst"];
+  const fileExt = filename.split('.').pop();
+  const randomFileName = randomNames[Math.floor(Math.random() * randomNames.length)] + '-' + Math.floor(Math.random()*10000) + '.' + fileExt;
   return (
     <div className="col-6 col-md-4 col-lg-3 p-0" style={{position: 'relative'}}>
       <div className="card h-100 border-0 rounded-0">
@@ -68,7 +72,7 @@ function VideoItem({ filename, idx, handleImgClick }) {
         )}
         <a
           href={thumbBasePath + filename}
-          download
+          download={randomFileName}
           style={{
             position: 'absolute',
             right: 8,
@@ -162,6 +166,10 @@ function App() {
       <div className="gallery-flex" style={{ display: 'flex', flexWrap: 'wrap', gap: 0, justifyContent: 'center', width: '100%' }}>
         {pagedList.map((filename, idx) => {
           const isVideo = filename.toLowerCase().endsWith('.mp4');
+          // Generate a random name for the downloaded file
+          const randomNames = ["Zap", "PixelPop", "VibeDrop", "Nova", "Echo", "Pulse", "Flux", "Spark", "Blitz", "Muse", "Jolt", "Lume", "Glint", "Flick", "Quark", "Twist", "Dash", "Glow", "Riff", "Sway", "Drift", "Wisp", "Faze", "Rave", "Chime", "Flicker", "Flash", "Beat", "Groove", "Wave", "Burst"];
+          const fileExt = filename.split('.').pop();
+          const randomFileName = randomNames[Math.floor(Math.random() * randomNames.length)] + '-' + Math.floor(Math.random()*10000) + '.' + fileExt;
           return isVideo ? (
             <VideoItem key={idx} filename={filename} idx={idx} handleImgClick={handleImgClick} />
           ) : (
@@ -174,7 +182,7 @@ function App() {
               />
               <a
                 href={thumbBasePath + filename}
-                download
+                download={randomFileName}
                 style={{
                   position: 'absolute',
                   right: 8,
