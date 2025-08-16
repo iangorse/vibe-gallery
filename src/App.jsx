@@ -2,8 +2,8 @@
 import imageList from "./imageList.json";
 import { useState, useEffect, useRef } from "react";
 
-const imageBasePath = "/images/";
-const thumbBasePath = "/tn/";
+const imageBasePath = "images/";
+const thumbBasePath = "tn/";
 
 function VideoItem({ filename, idx, handleImgClick }) {
   const videoRef = useRef(null);
