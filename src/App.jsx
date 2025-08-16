@@ -45,19 +45,35 @@ function VideoItem({ filename, idx, handleImgClick }) {
 
   // ...existing code...
   const holdTimeout = useRef(null);
+  const startPos = useRef({ x: 0, y: 0 });
+  const moved = useRef(false);
   const handleHoldStart = (e) => {
     const clientX = e.touches ? e.touches[0].clientX : e.clientX;
     const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-    const menuHeight = 80; // estimated height of menu in px
-    const menuWidth = 180; // estimated width of menu in px
+    startPos.current = { x: clientX, y: clientY };
+    moved.current = false;
+    const menuHeight = 80;
+    const menuWidth = 180;
     const viewportWidth = window.innerWidth;
     const x = Math.min(clientX, viewportWidth - menuWidth - 10);
     holdTimeout.current = setTimeout(() => {
-      setMenu({ visible: true, x: x, y: Math.max(clientY - menuHeight, 10) });
+      if (!moved.current) {
+        setMenu({ visible: true, x: x, y: Math.max(clientY - menuHeight, 10) });
+      }
     }, 700);
   };
   const handleHoldEnd = () => {
     clearTimeout(holdTimeout.current);
+  };
+  const handleHoldMove = (e) => {
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+    const dx = Math.abs(clientX - startPos.current.x);
+    const dy = Math.abs(clientY - startPos.current.y);
+    if (dx > 10 || dy > 10) {
+      moved.current = true;
+      clearTimeout(holdTimeout.current);
+    }
   };
   const handleCloseMenu = () => setMenu({ ...menu, visible: false });
   const handleDownload = () => {
@@ -95,8 +111,10 @@ function VideoItem({ filename, idx, handleImgClick }) {
           onMouseDown={handleHoldStart}
           onMouseUp={handleHoldEnd}
           onMouseLeave={handleHoldEnd}
+          onMouseMove={handleHoldMove}
           onTouchStart={handleHoldStart}
           onTouchEnd={handleHoldEnd}
+          onTouchMove={handleHoldMove}
           onContextMenu={e => e.preventDefault()}
         />
         {isPaused && (
@@ -195,19 +213,35 @@ function GalleryImage({ filename }) {
   const fileExt = filename.split('.').pop();
   const randomFileName = randomNames[Math.floor(Math.random() * randomNames.length)] + '-' + Math.floor(Math.random()*10000) + '.' + fileExt;
   const holdTimeout = useRef(null);
+  const startPos = useRef({ x: 0, y: 0 });
+  const moved = useRef(false);
   const handleHoldStart = (e) => {
     const clientX = e.touches ? e.touches[0].clientX : e.clientX;
     const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-    const menuHeight = 80; // estimated height of menu in px
-    const menuWidth = 180; // estimated width of menu in px
+    startPos.current = { x: clientX, y: clientY };
+    moved.current = false;
+    const menuHeight = 80;
+    const menuWidth = 180;
     const viewportWidth = window.innerWidth;
     const x = Math.min(clientX, viewportWidth - menuWidth - 10);
     holdTimeout.current = setTimeout(() => {
-      setMenu({ visible: true, x: x, y: Math.max(clientY - menuHeight, 10) });
+      if (!moved.current) {
+        setMenu({ visible: true, x: x, y: Math.max(clientY - menuHeight, 10) });
+      }
     }, 700);
   };
   const handleHoldEnd = () => {
     clearTimeout(holdTimeout.current);
+  };
+  const handleHoldMove = (e) => {
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+    const dx = Math.abs(clientX - startPos.current.x);
+    const dy = Math.abs(clientY - startPos.current.y);
+    if (dx > 10 || dy > 10) {
+      moved.current = true;
+      clearTimeout(holdTimeout.current);
+    }
   };
   const handleCloseMenu = () => setMenu({ ...menu, visible: false });
   const handleDownload = () => {
@@ -229,8 +263,10 @@ function GalleryImage({ filename }) {
         onMouseDown={handleHoldStart}
         onMouseUp={handleHoldEnd}
         onMouseLeave={handleHoldEnd}
+        onMouseMove={handleHoldMove}
         onTouchStart={handleHoldStart}
         onTouchEnd={handleHoldEnd}
+        onTouchMove={handleHoldMove}
         onContextMenu={e => e.preventDefault()}
       />
       {menu.visible && (
