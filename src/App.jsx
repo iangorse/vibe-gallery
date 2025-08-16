@@ -105,8 +105,11 @@ function App() {
   return (
   <div className="App container-fluid" style={{ background: 'linear-gradient(135deg, #ff6a00 0%, #ee0979 50%, #43cea2 100%)', minHeight: '100vh', paddingBottom: '2rem', margin: 0, padding: 0 }}>
         <h1 className="my-4 text-center vibe-heading">Vibe Gallery</h1>
-        <div className="text-center" style={{ fontSize: '1.1rem', color: '#555', marginBottom: '2rem', fontWeight: 500 }}>
+        <div className="text-center" style={{ fontSize: '1.1rem', color: '#555', marginBottom: '0.5rem', fontWeight: 500 }}>
           Application built with AI
+        </div>
+        <div className="text-center" style={{ fontSize: '1rem', color: '#888', marginBottom: '2rem', fontWeight: 400 }}>
+          refresh to show more
         </div>
   <div className="gallery-flex" style={{ display: 'flex', flexWrap: 'wrap', gap: 0, justifyContent: 'center', width: '100%' }}>
           {pagedList.map((filename, idx) => {
