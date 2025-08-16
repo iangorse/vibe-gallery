@@ -66,8 +66,22 @@ function VideoItem({ filename, idx, handleImgClick }) {
   );
 }
 
+function shuffleArray(array) {
+  const arr = array.slice();
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
 function App() {
   const [fullscreenImg, setFullscreenImg] = useState(null);
+  const [shuffledList, setShuffledList] = useState([]);
+
+  useEffect(() => {
+    setShuffledList(shuffleArray(imageList));
+  }, []);
 
   const handleImgClick = (filename, idx) => {
     const isVideo = filename.toLowerCase().endsWith('.mp4');
@@ -88,7 +102,7 @@ function App() {
     <div className="App container-fluid">
       <h1 className="my-4 text-center vibe-heading">Vibe Gallery</h1>
       <div className="row g-0">
-        {imageList.map((filename, idx) => {
+        {shuffledList.map((filename, idx) => {
           const isVideo = filename.toLowerCase().endsWith('.mp4');
           return isVideo ? (
             <VideoItem key={idx} filename={filename} idx={idx} handleImgClick={handleImgClick} />
