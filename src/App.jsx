@@ -114,9 +114,9 @@ function App() {
   <div className="App container-fluid" style={{ background: '#000', minHeight: '100vh', paddingBottom: '2rem', margin: 0, padding: 0 }}>
       <div style={{
         maxWidth: 600,
-        margin: '0 auto 2rem auto',
-          padding: '1.2rem 1rem 1rem 1rem',
-          borderRadius: '0',
+        margin: '0 auto 0 auto',
+        padding: '1.2rem 1rem 1rem 1rem',
+        borderRadius: '0',
         background: 'linear-gradient(120deg, #4f8cff 0%, #6a5af9 50%, #a259ec 100%)',
         boxShadow: '0 8px 32px rgba(0,0,0,0.18)',
         textAlign: 'center',
