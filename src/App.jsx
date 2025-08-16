@@ -8,6 +8,14 @@ const thumbBasePath = "tn/";
 function VideoItem({ filename, idx, handleImgClick }) {
   // Custom context menu state
   const [menu, setMenu] = useState({ visible: false, x: 0, y: 0 });
+  // Auto-close context menu after a few seconds
+  useEffect(() => {
+    if (!menu.visible) return;
+    const timer = setTimeout(() => {
+      setMenu(prev => ({ ...prev, visible: false }));
+    }, 3500); // 3.5 seconds
+    return () => clearTimeout(timer);
+  }, [menu.visible]);
   // Close menu on outside click
   useEffect(() => {
     if (!menu.visible) return;
@@ -194,6 +202,14 @@ function shuffleArray(array) {
 function GalleryImage({ filename }) {
   // Custom context menu state
   const [menu, setMenu] = useState({ visible: false, x: 0, y: 0 });
+  // Auto-close context menu after a few seconds
+  useEffect(() => {
+    if (!menu.visible) return;
+    const timer = setTimeout(() => {
+      setMenu(prev => ({ ...prev, visible: false }));
+    }, 3500); // 3.5 seconds
+    return () => clearTimeout(timer);
+  }, [menu.visible]);
   // Close menu on outside click
   useEffect(() => {
     if (!menu.visible) return;
