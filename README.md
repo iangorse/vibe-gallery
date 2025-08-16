@@ -15,6 +15,8 @@ A modern React-based gallery web application for viewing and downloading images 
 
 **This application and README were completely written by AI.**
 
+**Disclaimer:** As this project was generated entirely by AI, there may be errors or unexpected behavior. Please review and test thoroughly before using in production.
+
 ## Features
 
 - Displays a grid of images and videos from the `public/tn` folder
