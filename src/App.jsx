@@ -32,15 +32,7 @@ function App() {
     setFullscreenImg(null);
   };
 
-  // Helper to auto-play videos when they appear
-  const videoRefs = [];
-  useEffect(() => {
-    videoRefs.forEach(ref => {
-      if (ref && ref.paused) {
-        ref.play().catch(() => {});
-      }
-    });
-  }, [visibleCount]);
+  // Removed auto-play logic for videos
 
   return (
     <div className="App container-fluid">
@@ -53,14 +45,11 @@ function App() {
               <div className="card h-100 border-0 rounded-0">
                 {isVideo ? (
                   <video
-                    ref={el => videoRefs[idx] = el}
                     src={imageBasePath + filename}
                     className="card-img-top rounded-0 gallery-img"
                     style={{ objectFit: "cover", height: "100%", cursor: "pointer", transition: "transform 0.2s" }}
                     controls
                     onClick={() => handleImgClick(filename)}
-                    onMouseOver={e => e.target.play()}
-                    onMouseOut={e => { e.target.pause(); e.target.currentTime = 0; }}
                   />
                 ) : (
                   <img
@@ -108,7 +97,6 @@ function App() {
                 borderRadius: "8px",
               }}
               controls
-              autoPlay
             />
           ) : (
             <img
