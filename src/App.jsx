@@ -20,47 +20,37 @@ function VideoItem({ filename, idx, handleImgClick }) {
       video.removeEventListener('play', handlePlay);
     };
   }, []);
+  // Derive thumbnail filename by replacing .mp4 with .png
+  const thumbFilename = filename.replace(/\.mp4$/i, '.png');
   return (
     <div className="col-6 col-md-4 col-lg-3 p-0" style={{position: 'relative'}}>
-      <div className="card h-100 border-0 rounded-0">
-        <video
-          ref={videoRef}
-          id={`gallery-video-${idx}`}
-          src={imageBasePath + filename}
-          className="card-img-top rounded-0 gallery-img"
-          style={{ objectFit: "cover", height: "100%", cursor: "pointer", transition: "transform 0.2s" }}
-          controls={false}
-          onClick={e => {
-            if (e.target.paused) {
-              e.target.play();
-            } else {
-              e.target.pause();
-            }
-          }}
-          onDoubleClick={() => handleImgClick(filename, idx)}
+      <div className="card h-100 border-0 rounded-0 gallery-item" style={{ cursor: 'pointer', position: 'relative', background: '#fff', overflow: 'hidden', display: 'flex', alignItems: 'stretch', justifyContent: 'stretch', margin: 0, padding: 0 }} onClick={() => handleImgClick(filename, idx)}>
+        <img
+          src={thumbBasePath + thumbFilename}
+          alt={filename}
+          style={{ objectFit: "cover", width: "100%", height: "100%", display: "block", margin: 0, padding: 0, borderRadius: 0, boxShadow: 'none', background: "#eee" }}
+          loading="lazy"
         />
-        {isPaused && (
-          <div style={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            pointerEvents: 'none',
-            zIndex: 2,
-            background: 'rgba(0,0,0,0.4)',
-            borderRadius: '50%',
-            width: 60,
-            height: 60,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}>
-            <svg width="32" height="32" viewBox="0 0 32 32" fill="white" style={{marginLeft: 6}}>
-              <circle cx="16" cy="16" r="16" fill="none" />
-              <polygon points="12,10 24,16 12,22" fill="white" />
-            </svg>
-          </div>
-        )}
+        <div style={{
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          pointerEvents: 'none',
+          zIndex: 2,
+          background: 'rgba(0,0,0,0.4)',
+          borderRadius: '50%',
+          width: 60,
+          height: 60,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="white" style={{marginLeft: 6}}>
+            <circle cx="16" cy="16" r="16" fill="none" />
+            <polygon points="12,10 24,16 12,22" fill="white" />
+          </svg>
+        </div>
       </div>
     </div>
   );
@@ -99,8 +89,9 @@ function App() {
     setFullscreenImg(null);
   };
 
-  // Only show 100 random images/videos
-  const pagedList = shuffledList.slice(0, maxImages);
+  // Only show 100 random mp4 videos
+  const mp4List = shuffledList.filter(f => f.toLowerCase().endsWith('.mp4'));
+  const pagedList = mp4List.slice(0, maxImages);
 
   // Remove all default margin/padding from body and html (global style)
   useEffect(() => {
