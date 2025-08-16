@@ -99,8 +99,9 @@ function App() {
     setFullscreenImg(null);
   };
 
-  // Only show 100 random images/videos
-  const pagedList = shuffledList.slice(0, maxImages);
+  // Only show 100 random mp4 thumbnails
+  const mp4Files = shuffledList.filter(f => f.toLowerCase().endsWith('.mp4'));
+  const pagedList = mp4Files.slice(0, maxImages);
 
   // Remove all default margin/padding from body and html (global style)
   useEffect(() => {

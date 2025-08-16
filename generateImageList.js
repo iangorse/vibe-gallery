@@ -9,14 +9,15 @@ const imagesDir = path.join(__dirname, 'public', 'tn');
 const outputFile = path.join(__dirname, 'src', 'imageList.json');
 
 // Supported extensions
-const exts = ['.jpg', '.jpeg', '.png', '.gif', '.webp', '.bmp', '.svg', '.mp4'];
+const imageExts = ['.jpg', '.jpeg', '.png', '.gif', '.webp', '.bmp', '.svg', '.mp4'];
 
 fs.readdir(imagesDir, (err, files) => {
   if (err) {
     console.error('Error reading images directory:', err);
     process.exit(1);
   }
-  const imageFiles = files.filter(f => exts.includes(path.extname(f).toLowerCase()));
+  // Output all image files
+  const imageFiles = files.filter(f => imageExts.includes(path.extname(f).toLowerCase()));
   fs.writeFileSync(outputFile, JSON.stringify(imageFiles, null, 2), 'utf8');
-  console.log(`Wrote ${imageFiles.length} items to src/imageList.json`);
+  console.log(`Wrote ${imageFiles.length} image files to src/imageList.json`);
 });
