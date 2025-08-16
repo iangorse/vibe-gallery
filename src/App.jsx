@@ -66,6 +66,23 @@ function VideoItem({ filename, idx, handleImgClick }) {
             </svg>
           </div>
         )}
+        <a
+          href={thumbBasePath + filename}
+          download
+          style={{
+            position: 'absolute',
+            right: 8,
+            bottom: 8,
+            background: 'rgba(0,0,0,0.7)',
+            color: '#fff',
+            borderRadius: 6,
+            padding: '4px 10px',
+            fontSize: '0.95rem',
+            textDecoration: 'none',
+            zIndex: 3,
+            boxShadow: '0 2px 8px rgba(0,0,0,0.18)'
+          }}
+        >Download</a>
       </div>
     </div>
   );
@@ -148,13 +165,30 @@ function App() {
           return isVideo ? (
             <VideoItem key={idx} filename={filename} idx={idx} handleImgClick={handleImgClick} />
           ) : (
-            <div className="gallery-item" key={idx} style={{ flex: '1 1 320px', maxWidth: '420px', minWidth: '220px', background: '#fff', overflow: 'hidden', display: 'flex', alignItems: 'stretch', justifyContent: 'stretch', margin: 0, padding: 0 }}>
+            <div className="gallery-item" key={idx} style={{ flex: '1 1 320px', maxWidth: '420px', minWidth: '220px', background: '#fff', overflow: 'hidden', display: 'flex', alignItems: 'stretch', justifyContent: 'stretch', margin: 0, padding: 0, position: 'relative' }}>
               <img
                 src={thumbBasePath + filename}
                 alt={filename}
                 style={{ objectFit: "cover", width: "100%", height: "100%", display: "block", margin: 0, padding: 0, borderRadius: 0, boxShadow: 'none', background: "#eee" }}
                 loading="lazy"
               />
+              <a
+                href={thumbBasePath + filename}
+                download
+                style={{
+                  position: 'absolute',
+                  right: 8,
+                  bottom: 8,
+                  background: 'rgba(0,0,0,0.7)',
+                  color: '#fff',
+                  borderRadius: 6,
+                  padding: '4px 10px',
+                  fontSize: '0.95rem',
+                  textDecoration: 'none',
+                  zIndex: 3,
+                  boxShadow: '0 2px 8px rgba(0,0,0,0.18)'
+                }}
+              >Download</a>
             </div>
           );
         })}
