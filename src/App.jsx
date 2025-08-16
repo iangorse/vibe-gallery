@@ -1,7 +1,6 @@
+
 import imageList from "./imageList.json";
 import { useState, useEffect, useRef } from "react";
-
-
 
 const imageBasePath = "/images/";
 const thumbBasePath = "/tn/";
@@ -104,24 +103,24 @@ function App() {
   const pagedList = shuffledList.slice(0, maxImages);
 
   return (
-      <div className="App container-fluid">
+  <div className="App container-fluid" style={{ background: 'linear-gradient(135deg, #ff6a00 0%, #ee0979 50%, #43cea2 100%)', minHeight: '100vh', paddingBottom: '2rem', margin: 0, padding: 0 }}>
         <h1 className="my-4 text-center vibe-heading">Vibe Gallery</h1>
-        <div className="row g-0">
+        <div className="text-center" style={{ fontSize: '1.1rem', color: '#555', marginBottom: '2rem', fontWeight: 500 }}>
+          Application built with AI
+        </div>
+  <div className="gallery-flex" style={{ display: 'flex', flexWrap: 'wrap', gap: 0, justifyContent: 'center', width: '100%' }}>
           {pagedList.map((filename, idx) => {
             const isVideo = filename.toLowerCase().endsWith('.mp4');
             return isVideo ? (
               <VideoItem key={idx} filename={filename} idx={idx} handleImgClick={handleImgClick} />
             ) : (
-              <div className="col-6 col-md-4 col-lg-3 p-0" key={idx}>
-                <div className="card h-100 border-0 rounded-0">
-                  <img
-                    src={thumbBasePath + filename}
-                    className="card-img-top rounded-0 gallery-img"
-                    alt={filename}
-                    style={{ objectFit: "cover", height: "100%", cursor: "pointer", transition: "transform 0.2s" }}
-                    loading="lazy"
-                  />
-                </div>
+              <div className="gallery-item" key={idx} style={{ flex: '1 1 320px', maxWidth: '420px', minWidth: '220px', background: '#fff', overflow: 'hidden', display: 'flex', alignItems: 'stretch', justifyContent: 'stretch', margin: 0, padding: 0 }}>
+                <img
+                  src={thumbBasePath + filename}
+                  alt={filename}
+                  style={{ objectFit: "cover", width: "100%", height: "100%", display: "block", margin: 0, padding: 0, borderRadius: 0, boxShadow: 'none', background: "#eee" }}
+                  loading="lazy"
+                />
               </div>
             );
           })}
