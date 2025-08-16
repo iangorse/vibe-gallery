@@ -6,6 +6,24 @@ const imageBasePath = "images/";
 const thumbBasePath = "tn/";
 
 function VideoItem({ filename, idx, handleImgClick }) {
+  // Custom context menu state
+  const [menu, setMenu] = useState({ visible: false, x: 0, y: 0 });
+  // Close menu on outside click
+  useEffect(() => {
+    if (!menu.visible) return;
+    const handleClick = (e) => {
+      // If click is outside the menu, close it
+      if (e.target.closest('.custom-context-menu') === null) {
+        setMenu(prev => ({ ...prev, visible: false }));
+      }
+    };
+    document.addEventListener('mousedown', handleClick);
+    document.addEventListener('touchstart', handleClick);
+    return () => {
+      document.removeEventListener('mousedown', handleClick);
+      document.removeEventListener('touchstart', handleClick);
+    };
+  }, [menu.visible]);
   const videoRef = useRef(null);
   const [isPaused, setIsPaused] = useState(true);
   useEffect(() => {
@@ -24,6 +42,33 @@ function VideoItem({ filename, idx, handleImgClick }) {
   const randomNames = ["Zap", "PixelPop", "VibeDrop", "Nova", "Echo", "Pulse", "Flux", "Spark", "Blitz", "Muse", "Jolt", "Lume", "Glint", "Flick", "Quark", "Twist", "Dash", "Glow", "Riff", "Sway", "Drift", "Wisp", "Faze", "Rave", "Chime", "Flicker", "Flash", "Beat", "Groove", "Wave", "Burst"];
   const fileExt = filename.split('.').pop();
   const randomFileName = randomNames[Math.floor(Math.random() * randomNames.length)] + '-' + Math.floor(Math.random()*10000) + '.' + fileExt;
+
+  // ...existing code...
+  const holdTimeout = useRef(null);
+  const handleHoldStart = (e) => {
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+    const menuHeight = 80; // estimated height of menu in px
+    const menuWidth = 180; // estimated width of menu in px
+    const viewportWidth = window.innerWidth;
+    const x = Math.min(clientX, viewportWidth - menuWidth - 10);
+    holdTimeout.current = setTimeout(() => {
+      setMenu({ visible: true, x: x, y: Math.max(clientY - menuHeight, 10) });
+    }, 700);
+  };
+  const handleHoldEnd = () => {
+    clearTimeout(holdTimeout.current);
+  };
+  const handleCloseMenu = () => setMenu({ ...menu, visible: false });
+  const handleDownload = () => {
+    const link = document.createElement('a');
+    link.href = thumbBasePath + filename;
+    link.download = randomFileName;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    handleCloseMenu();
+  };
   return (
     <div className="col-6 col-md-4 col-lg-3 p-0" style={{position: 'relative'}}>
       <div className="card h-100 border-0 rounded-0">
@@ -47,6 +92,12 @@ function VideoItem({ filename, idx, handleImgClick }) {
             }
           }}
           onDoubleClick={() => handleImgClick(filename, idx)}
+          onMouseDown={handleHoldStart}
+          onMouseUp={handleHoldEnd}
+          onMouseLeave={handleHoldEnd}
+          onTouchStart={handleHoldStart}
+          onTouchEnd={handleHoldEnd}
+          onContextMenu={e => e.preventDefault()}
         />
         {isPaused && (
           <div style={{
@@ -70,23 +121,44 @@ function VideoItem({ filename, idx, handleImgClick }) {
             </svg>
           </div>
         )}
-        <a
-          href={thumbBasePath + filename}
-          download={randomFileName}
-          style={{
-            position: 'absolute',
-            right: 8,
-            bottom: 8,
-            background: 'rgba(0,0,0,0.7)',
+        {menu.visible && (
+          <div className="custom-context-menu" style={{
+            position: 'fixed',
+            left: menu.x,
+            top: menu.y,
+            background: 'rgba(30,30,30,0.98)',
             color: '#fff',
-            borderRadius: 6,
-            padding: '4px 10px',
-            fontSize: '0.95rem',
-            textDecoration: 'none',
-            zIndex: 3,
-            boxShadow: '0 2px 8px rgba(0,0,0,0.18)'
-          }}
-        >Download</a>
+            borderRadius: 8,
+            boxShadow: '0 2px 12px rgba(0,0,0,0.18)',
+            zIndex: 9999,
+            padding: '10px 18px',
+            minWidth: 120,
+            fontSize: '1rem',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}>
+            <button onClick={handleDownload} style={{
+              background: '#4f8cff',
+              color: '#fff',
+              border: 'none',
+              borderRadius: 6,
+              padding: '8px 18px',
+              fontWeight: 700,
+              fontSize: '1rem',
+              cursor: 'pointer',
+              marginBottom: 4,
+            }}>Download</button>
+            <button onClick={handleCloseMenu} style={{
+              background: 'transparent',
+              color: '#fff',
+              border: 'none',
+              fontSize: '0.95rem',
+              cursor: 'pointer',
+              textDecoration: 'underline',
+            }}>Cancel</button>
+          </div>
+        )}
       </div>
     </div>
   );
@@ -99,6 +171,108 @@ function shuffleArray(array) {
     [arr[i], arr[j]] = [arr[j], arr[i]];
   }
   return arr;
+}
+
+function GalleryImage({ filename }) {
+  // Custom context menu state
+  const [menu, setMenu] = useState({ visible: false, x: 0, y: 0 });
+  // Close menu on outside click
+  useEffect(() => {
+    if (!menu.visible) return;
+    const handleClick = (e) => {
+      if (e.target.closest('.custom-context-menu') === null) {
+        setMenu(prev => ({ ...prev, visible: false }));
+      }
+    };
+    document.addEventListener('mousedown', handleClick);
+    document.addEventListener('touchstart', handleClick);
+    return () => {
+      document.removeEventListener('mousedown', handleClick);
+      document.removeEventListener('touchstart', handleClick);
+    };
+  }, [menu.visible]);
+  const randomNames = ["Zap", "PixelPop", "VibeDrop", "Nova", "Echo", "Pulse", "Flux", "Spark", "Blitz", "Muse", "Jolt", "Lume", "Glint", "Flick", "Quark", "Twist", "Dash", "Glow", "Riff", "Sway", "Drift", "Wisp", "Faze", "Rave", "Chime", "Flicker", "Flash", "Beat", "Groove", "Wave", "Burst"];
+  const fileExt = filename.split('.').pop();
+  const randomFileName = randomNames[Math.floor(Math.random() * randomNames.length)] + '-' + Math.floor(Math.random()*10000) + '.' + fileExt;
+  const holdTimeout = useRef(null);
+  const handleHoldStart = (e) => {
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+    const menuHeight = 80; // estimated height of menu in px
+    const menuWidth = 180; // estimated width of menu in px
+    const viewportWidth = window.innerWidth;
+    const x = Math.min(clientX, viewportWidth - menuWidth - 10);
+    holdTimeout.current = setTimeout(() => {
+      setMenu({ visible: true, x: x, y: Math.max(clientY - menuHeight, 10) });
+    }, 700);
+  };
+  const handleHoldEnd = () => {
+    clearTimeout(holdTimeout.current);
+  };
+  const handleCloseMenu = () => setMenu({ ...menu, visible: false });
+  const handleDownload = () => {
+    const link = document.createElement('a');
+    link.href = thumbBasePath + filename;
+    link.download = randomFileName;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    handleCloseMenu();
+  };
+  return (
+    <div className="gallery-item" style={{ flex: '1 1 320px', maxWidth: '420px', minWidth: '220px', background: '#fff', overflow: 'hidden', display: 'flex', alignItems: 'stretch', justifyContent: 'stretch', margin: 0, padding: 0, position: 'relative' }}>
+      <img
+        src={thumbBasePath + filename}
+        alt={filename}
+        style={{ objectFit: "cover", width: "100%", height: "100%", display: "block", margin: 0, padding: 0, borderRadius: 0, boxShadow: 'none', background: "#eee" }}
+        loading="lazy"
+        onMouseDown={handleHoldStart}
+        onMouseUp={handleHoldEnd}
+        onMouseLeave={handleHoldEnd}
+        onTouchStart={handleHoldStart}
+        onTouchEnd={handleHoldEnd}
+        onContextMenu={e => e.preventDefault()}
+      />
+      {menu.visible && (
+        <div className="custom-context-menu" style={{
+          position: 'fixed',
+          left: menu.x,
+          top: menu.y,
+          background: 'rgba(30,30,30,0.98)',
+          color: '#fff',
+          borderRadius: 8,
+          boxShadow: '0 2px 12px rgba(0,0,0,0.18)',
+          zIndex: 9999,
+          padding: '10px 18px',
+          minWidth: 120,
+          fontSize: '1rem',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+        }}>
+          <button onClick={handleDownload} style={{
+            background: '#4f8cff',
+            color: '#fff',
+            border: 'none',
+            borderRadius: 6,
+            padding: '8px 18px',
+            fontWeight: 700,
+            fontSize: '1rem',
+            cursor: 'pointer',
+            marginBottom: 4,
+          }}>Download</button>
+          <button onClick={handleCloseMenu} style={{
+            background: 'transparent',
+            color: '#fff',
+            border: 'none',
+            fontSize: '0.95rem',
+            cursor: 'pointer',
+            textDecoration: 'underline',
+          }}>Cancel</button>
+        </div>
+      )}
+    </div>
+  );
 }
 
 function App() {
@@ -143,7 +317,7 @@ function App() {
         left: 0,
         top: 0,
         position: 'relative',
-  padding: '0.6rem 0 0.5rem 0',
+        padding: '0.6rem 0 0.5rem 0',
         background: 'linear-gradient(120deg, #4f8cff 0%, #6a5af9 50%, #a259ec 100%)',
         boxShadow: '0 8px 32px rgba(0,0,0,0.18)',
         textAlign: 'center',
@@ -166,38 +340,10 @@ function App() {
       <div className="gallery-flex" style={{ display: 'flex', flexWrap: 'wrap', gap: 0, justifyContent: 'center', width: '100%' }}>
         {pagedList.map((filename, idx) => {
           const isVideo = filename.toLowerCase().endsWith('.mp4');
-          // Generate a random name for the downloaded file
-          const randomNames = ["Zap", "PixelPop", "VibeDrop", "Nova", "Echo", "Pulse", "Flux", "Spark", "Blitz", "Muse", "Jolt", "Lume", "Glint", "Flick", "Quark", "Twist", "Dash", "Glow", "Riff", "Sway", "Drift", "Wisp", "Faze", "Rave", "Chime", "Flicker", "Flash", "Beat", "Groove", "Wave", "Burst"];
-          const fileExt = filename.split('.').pop();
-          const randomFileName = randomNames[Math.floor(Math.random() * randomNames.length)] + '-' + Math.floor(Math.random()*10000) + '.' + fileExt;
           return isVideo ? (
             <VideoItem key={idx} filename={filename} idx={idx} handleImgClick={handleImgClick} />
           ) : (
-            <div className="gallery-item" key={idx} style={{ flex: '1 1 320px', maxWidth: '420px', minWidth: '220px', background: '#fff', overflow: 'hidden', display: 'flex', alignItems: 'stretch', justifyContent: 'stretch', margin: 0, padding: 0, position: 'relative' }}>
-              <img
-                src={thumbBasePath + filename}
-                alt={filename}
-                style={{ objectFit: "cover", width: "100%", height: "100%", display: "block", margin: 0, padding: 0, borderRadius: 0, boxShadow: 'none', background: "#eee" }}
-                loading="lazy"
-              />
-              <a
-                href={thumbBasePath + filename}
-                download={randomFileName}
-                style={{
-                  position: 'absolute',
-                  right: 8,
-                  bottom: 8,
-                  background: 'rgba(0,0,0,0.7)',
-                  color: '#fff',
-                  borderRadius: 6,
-                  padding: '4px 10px',
-                  fontSize: '0.95rem',
-                  textDecoration: 'none',
-                  zIndex: 3,
-                  boxShadow: '0 2px 8px rgba(0,0,0,0.18)'
-                }}
-              >Download</a>
-            </div>
+            <GalleryImage key={idx} filename={filename} />
           );
         })}
       </div>
