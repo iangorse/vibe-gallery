@@ -18,19 +18,32 @@ function App() {
     <div className="App container-fluid">
       <h1 className="my-4 text-center">Vibe Gallery</h1>
       <div className="row g-0">
-        {imageList.map((filename, idx) => (
-          <div className="col-6 col-md-4 col-lg-3 p-0" key={idx}>
-            <div className="card h-100 border-0 rounded-0">
-              <img
-                src={imageBasePath + filename}
-                className="card-img-top rounded-0 gallery-img"
-                alt={filename}
-                style={{ objectFit: "cover", height: "100%", cursor: "pointer", transition: "transform 0.2s" }}
-                onClick={() => handleImgClick(filename)}
-              />
+        {imageList.map((filename, idx) => {
+          const isVideo = filename.toLowerCase().endsWith('.mp4');
+          return (
+            <div className="col-6 col-md-4 col-lg-3 p-0" key={idx}>
+              <div className="card h-100 border-0 rounded-0">
+                {isVideo ? (
+                  <video
+                    src={imageBasePath + filename}
+                    className="card-img-top rounded-0 gallery-img"
+                    style={{ objectFit: "cover", height: "100%", cursor: "pointer", transition: "transform 0.2s" }}
+                    controls
+                    onClick={() => handleImgClick(filename)}
+                  />
+                ) : (
+                  <img
+                    src={imageBasePath + filename}
+                    className="card-img-top rounded-0 gallery-img"
+                    alt={filename}
+                    style={{ objectFit: "cover", height: "100%", cursor: "pointer", transition: "transform 0.2s" }}
+                    onClick={() => handleImgClick(filename)}
+                  />
+                )}
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
 
       {fullscreenImg && (
@@ -49,16 +62,30 @@ function App() {
           }}
           onClick={handleClose}
         >
-          <img
-            src={imageBasePath + fullscreenImg}
-            alt={fullscreenImg}
-            style={{
-              maxWidth: "90vw",
-              maxHeight: "90vh",
-              boxShadow: "0 0 40px #000",
-              borderRadius: "8px",
-            }}
-          />
+          {fullscreenImg.toLowerCase().endsWith('.mp4') ? (
+            <video
+              src={imageBasePath + fullscreenImg}
+              style={{
+                maxWidth: "90vw",
+                maxHeight: "90vh",
+                boxShadow: "0 0 40px #000",
+                borderRadius: "8px",
+              }}
+              controls
+              autoPlay
+            />
+          ) : (
+            <img
+              src={imageBasePath + fullscreenImg}
+              alt={fullscreenImg}
+              style={{
+                maxWidth: "90vw",
+                maxHeight: "90vh",
+                boxShadow: "0 0 40px #000",
+                borderRadius: "8px",
+              }}
+            />
+          )}
         </div>
       )}
     </div>
