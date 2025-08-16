@@ -16,7 +16,7 @@ function App() {
 
   return (
     <div className="App container-fluid">
-      <h1 className="my-4 text-center">Vibe Gallery</h1>
+  <h1 className="my-4 text-center vibe-heading">Vibe Gallery</h1>
       <div className="row g-0">
         {imageList.map((filename, idx) => {
           const isVideo = filename.toLowerCase().endsWith('.mp4');

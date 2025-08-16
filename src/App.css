@@ -1,3 +1,16 @@
+/* Enhanced Vibe Gallery heading */
+.vibe-heading {
+  font-size: 3rem;
+  font-weight: 800;
+  background: linear-gradient(90deg, #ff6a00 0%, #ee0979 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
+  text-shadow: 0 4px 24px rgba(238,9,121,0.15), 0 1px 2px #fff;
+  letter-spacing: 2px;
+  margin-bottom: 2rem;
+}
 /* Gallery image hover effect */
 .gallery-img:hover {
   transform: scale(1.15);
