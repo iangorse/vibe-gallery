@@ -78,7 +78,7 @@ function shuffleArray(array) {
 function App() {
   const [fullscreenImg, setFullscreenImg] = useState(null);
   const [shuffledList, setShuffledList] = useState([]);
-  const maxImages = 100;
+  const maxImages = 50;
 
   useEffect(() => {
     setShuffledList(shuffleArray(imageList));
