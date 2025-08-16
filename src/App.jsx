@@ -32,17 +32,28 @@ function App() {
     setFullscreenImg(null);
   };
 
+  // Helper to auto-play videos when they appear
+  const videoRefs = [];
+  useEffect(() => {
+    videoRefs.forEach(ref => {
+      if (ref && ref.paused) {
+        ref.play().catch(() => {});
+      }
+    });
+  }, [visibleCount]);
+
   return (
     <div className="App container-fluid">
-  <h1 className="my-4 text-center vibe-heading">Vibe Gallery</h1>
+      <h1 className="my-4 text-center vibe-heading">Vibe Gallery</h1>
       <div className="row g-0">
-  {imageList.slice(0, visibleCount).map((filename, idx) => {
+        {imageList.slice(0, visibleCount).map((filename, idx) => {
           const isVideo = filename.toLowerCase().endsWith('.mp4');
           return (
             <div className="col-6 col-md-4 col-lg-3 p-0" key={idx}>
               <div className="card h-100 border-0 rounded-0">
                 {isVideo ? (
                   <video
+                    ref={el => videoRefs[idx] = el}
                     src={imageBasePath + filename}
                     className="card-img-top rounded-0 gallery-img"
                     style={{ objectFit: "cover", height: "100%", cursor: "pointer", transition: "transform 0.2s" }}
