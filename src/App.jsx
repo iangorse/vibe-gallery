@@ -31,6 +31,11 @@ function VideoItem({ filename, idx, handleImgClick }) {
           style={{ objectFit: "cover", height: "100%", cursor: "pointer", transition: "transform 0.2s" }}
           controls={false}
           onClick={e => {
+            // Pause all other videos
+            const galleryVideos = document.querySelectorAll('video[id^="gallery-video-"]');
+            galleryVideos.forEach(video => {
+              if (video !== e.target && !video.paused) video.pause();
+            });
             if (e.target.paused) {
               e.target.play();
             } else {
