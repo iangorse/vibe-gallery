@@ -102,14 +102,34 @@ function App() {
   // Only show 100 random images/videos
   const pagedList = shuffledList.slice(0, maxImages);
 
+  // Remove all default margin/padding from body and html (global style)
+  useEffect(() => {
+    document.body.style.margin = '0';
+    document.body.style.padding = '0';
+    document.documentElement.style.margin = '0';
+    document.documentElement.style.padding = '0';
+  }, []);
+
   return (
-  <div className="App container-fluid" style={{ background: 'linear-gradient(135deg, #ff6a00 0%, #ee0979 50%, #43cea2 100%)', minHeight: '100vh', paddingBottom: '2rem', margin: 0, padding: 0 }}>
-        <h1 className="my-4 text-center vibe-heading">Vibe Gallery</h1>
-        <div className="text-center" style={{ fontSize: '1.1rem', color: '#555', marginBottom: '0.5rem', fontWeight: 500 }}>
-          Application built with AI
-        </div>
-        <div className="text-center" style={{ fontSize: '1rem', color: '#888', marginBottom: '2rem', fontWeight: 400 }}>
-          refresh to show more
+  <div className="App container-fluid" style={{ background: '#000', minHeight: '100vh', paddingBottom: '2rem', margin: 0, padding: 0 }}>
+      <div style={{
+        maxWidth: 600,
+        margin: '0 auto 2rem auto',
+          padding: '1.2rem 1rem 1rem 1rem',
+          borderRadius: '0',
+        background: 'linear-gradient(120deg, #4f8cff 0%, #6a5af9 50%, #a259ec 100%)',
+        boxShadow: '0 8px 32px rgba(0,0,0,0.18)',
+        textAlign: 'center',
+        color: '#fff',
+        position: 'relative',
+      }}>
+          <h1 className="vibe-heading" style={{ fontSize: '2.8rem', fontWeight: 900, marginBottom: '1.2rem', letterSpacing: '2px', color: 'inherit', textShadow: '0 2px 16px #ee0979, 0 1px 0 #43cea2' }}>Vibe Gallery</h1>
+          <div style={{ fontSize: '0.8rem', fontWeight: 500, marginBottom: '0.5rem', color: 'rgba(255,255,255,0.92)' }}>
+            Application built with AI
+          </div>
+          <div style={{ fontSize: '1.05rem', fontWeight: 400, color: 'rgba(255,255,255,0.8)' }}>
+            refresh to show more
+          </div>
         </div>
   <div className="gallery-flex" style={{ display: 'flex', flexWrap: 'wrap', gap: 0, justifyContent: 'center', width: '100%' }}>
           {pagedList.map((filename, idx) => {
