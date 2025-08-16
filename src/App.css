@@ -1,15 +1,21 @@
 /* Enhanced Vibe Gallery heading */
 .vibe-heading {
-  font-size: 3rem;
-  font-weight: 800;
-  background: linear-gradient(90deg, #ff6a00 0%, #ee0979 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  font-size: 3.5rem;
+  font-weight: 900;
+  background: linear-gradient(90deg, #ff6a00 0%, #ee0979 50%, #43cea2 100%);
   background-clip: text;
-  text-fill-color: transparent;
-  text-shadow: 0 4px 24px rgba(238,9,121,0.15), 0 1px 2px #fff;
-  letter-spacing: 2px;
-  margin-bottom: 2rem;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 6px 32px rgba(238,9,121,0.18), 0 2px 8px #fff, 0 1px 0 #43cea2;
+  letter-spacing: 3px;
+  margin-bottom: 2.5rem;
+  animation: vibePulse 2.5s infinite alternate;
+}
+
+@keyframes vibePulse {
+  0% { text-shadow: 0 6px 32px rgba(238,9,121,0.18), 0 2px 8px #fff, 0 1px 0 #43cea2; }
+  100% { text-shadow: 0 12px 48px rgba(238,9,121,0.28), 0 4px 16px #fff, 0 2px 0 #43cea2; }
 }
 /* Gallery image hover effect */
 .gallery-img {
