@@ -1,3 +1,22 @@
+/* Spinner styles */
+.gallery-spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 2rem 0;
+}
+.gallery-spinner .spinner {
+  width: 48px;
+  height: 48px;
+  border: 6px solid #eee;
+  border-top: 6px solid #ee0979;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
 /* Enhanced Vibe Gallery heading */
 .vibe-heading {
   font-size: 3.5rem;

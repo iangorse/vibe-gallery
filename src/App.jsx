@@ -1,10 +1,28 @@
 import imageList from "./imageList.json";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const imageBasePath = "/images/";
 
 function App() {
   const [fullscreenImg, setFullscreenImg] = useState(null);
+  const [visibleCount, setVisibleCount] = useState(16); // initial number of items
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (
+        window.innerHeight + window.scrollY >= document.body.offsetHeight - 200
+      ) {
+        setVisibleCount((prev) => {
+          if (prev < imageList.length) {
+            return Math.min(prev + 12, imageList.length);
+          }
+          return prev;
+        });
+      }
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const handleImgClick = (filename) => {
     setFullscreenImg(filename);
@@ -18,7 +36,7 @@ function App() {
     <div className="App container-fluid">
   <h1 className="my-4 text-center vibe-heading">Vibe Gallery</h1>
       <div className="row g-0">
-        {imageList.map((filename, idx) => {
+  {imageList.slice(0, visibleCount).map((filename, idx) => {
           const isVideo = filename.toLowerCase().endsWith('.mp4');
           return (
             <div className="col-6 col-md-4 col-lg-3 p-0" key={idx}>
@@ -47,6 +65,11 @@ function App() {
           );
         })}
       </div>
+      {visibleCount < imageList.length && (
+        <div className="gallery-spinner">
+          <div className="spinner" />
+        </div>
+      )}
 
       {fullscreenImg && (
         <div
