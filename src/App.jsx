@@ -78,6 +78,8 @@ function shuffleArray(array) {
 function App() {
   const [fullscreenImg, setFullscreenImg] = useState(null);
   const [shuffledList, setShuffledList] = useState([]);
+  const pageSize = 24;
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
     setShuffledList(shuffleArray(imageList));
@@ -98,16 +100,19 @@ function App() {
     setFullscreenImg(null);
   };
 
+  const totalPages = Math.ceil(shuffledList.length / pageSize);
+  const pagedList = shuffledList.slice((page - 1) * pageSize, page * pageSize);
+
   return (
     <div className="App container-fluid">
       <h1 className="my-4 text-center vibe-heading">Vibe Gallery</h1>
       <div className="row g-0">
-        {shuffledList.map((filename, idx) => {
+        {pagedList.map((filename, idx) => {
           const isVideo = filename.toLowerCase().endsWith('.mp4');
           return isVideo ? (
-            <VideoItem key={idx} filename={filename} idx={idx} handleImgClick={handleImgClick} />
+            <VideoItem key={idx + (page-1)*pageSize} filename={filename} idx={idx + (page-1)*pageSize} handleImgClick={handleImgClick} />
           ) : (
-            <div className="col-6 col-md-4 col-lg-3 p-0" key={idx}>
+            <div className="col-6 col-md-4 col-lg-3 p-0" key={idx + (page-1)*pageSize}>
               <div className="card h-100 border-0 rounded-0">
                 <img
                   src={imageBasePath + filename}
@@ -115,12 +120,33 @@ function App() {
                   alt={filename}
                   style={{ objectFit: "cover", height: "100%", cursor: "pointer", transition: "transform 0.2s" }}
                   loading="lazy"
-                  onClick={() => handleImgClick(filename, idx)}
+                  onClick={() => handleImgClick(filename, idx + (page-1)*pageSize)}
                 />
               </div>
             </div>
           );
         })}
+      </div>
+
+      {/* Pagination Controls */}
+      <div style={{ display: "flex", justifyContent: "center", alignItems: "center", margin: "2rem 0" }}>
+        <button
+          className="btn btn-outline-primary mx-2"
+          onClick={() => setPage((p) => Math.max(1, p - 1))}
+          disabled={page === 1}
+        >
+          Previous
+        </button>
+        <span style={{ fontWeight: 600, fontSize: "1.2rem" }}>
+          Page {page} of {totalPages}
+        </span>
+        <button
+          className="btn btn-outline-primary mx-2"
+          onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+          disabled={page === totalPages}
+        >
+          Next
+        </button>
       </div>
 
       {fullscreenImg && (
