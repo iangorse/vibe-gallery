@@ -30,6 +30,8 @@ function App() {
                     style={{ objectFit: "cover", height: "100%", cursor: "pointer", transition: "transform 0.2s" }}
                     controls
                     onClick={() => handleImgClick(filename)}
+                    onMouseOver={e => e.target.play()}
+                    onMouseOut={e => { e.target.pause(); e.target.currentTime = 0; }}
                   />
                 ) : (
                   <img
