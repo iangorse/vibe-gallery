@@ -1,0 +1,22 @@
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const imagesDir = path.join(__dirname, 'public', 'images');
+const outputFile = path.join(__dirname, 'src', 'imageList.json');
+
+// Supported extensions
+const exts = ['.jpg', '.jpeg', '.png', '.gif', '.webp', '.bmp', '.svg', '.mp4'];
+
+fs.readdir(imagesDir, (err, files) => {
+  if (err) {
+    console.error('Error reading images directory:', err);
+    process.exit(1);
+  }
+  const imageFiles = files.filter(f => exts.includes(path.extname(f).toLowerCase()));
+  fs.writeFileSync(outputFile, JSON.stringify(imageFiles, null, 2), 'utf8');
+  console.log(`Wrote ${imageFiles.length} items to src/imageList.json`);
+});
