@@ -120,7 +120,6 @@ function App() {
                     alt={filename}
                     style={{ objectFit: "cover", height: "100%", cursor: "pointer", transition: "transform 0.2s" }}
                     loading="lazy"
-                    onClick={() => handleImgClick(filename, idx)}
                   />
                 </div>
               </div>
@@ -128,48 +127,6 @@ function App() {
           })}
         </div>
 
-        {fullscreenImg && (
-          <div
-            style={{
-              position: "fixed",
-              top: 0,
-              left: 0,
-              width: "100vw",
-              height: "100vh",
-              background: "rgba(0,0,0,0.9)",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              zIndex: 9999,
-            }}
-            onClick={handleClose}
-          >
-            {fullscreenImg.toLowerCase().endsWith('.mp4') ? (
-              <video
-                src={imageBasePath + fullscreenImg}
-                style={{
-                  maxWidth: "90vw",
-                  maxHeight: "90vh",
-                  boxShadow: "0 0 40px #000",
-                  borderRadius: "8px",
-                }}
-                controls
-                autoPlay
-              />
-            ) : (
-              <img
-                src={imageBasePath + fullscreenImg}
-                alt={fullscreenImg}
-                style={{
-                  maxWidth: "90vw",
-                  maxHeight: "90vh",
-                  boxShadow: "0 0 40px #000",
-                  borderRadius: "8px",
-                }}
-              />
-            )}
-          </div>
-        )}
       </div>
   );
 }
